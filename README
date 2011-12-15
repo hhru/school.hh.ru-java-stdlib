@@ -1,0 +1,6 @@
+собирать так:
+mvn package
+
+а запускать так:
+java -jar target/java-stdlib.jar 127.0.0.1 1298
+
