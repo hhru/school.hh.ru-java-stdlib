@@ -15,7 +15,7 @@ public class SimpleGetTest extends BaseFunctionalTest {
     Socket s = connect();
 
     Writer out = new PrintWriter(s.getOutputStream());
-    out.append("GET k1\n").flush();
+    out.append("GET k3\n").flush();
     BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
     
     Assert.assertEquals("VALUE", in.readLine());
