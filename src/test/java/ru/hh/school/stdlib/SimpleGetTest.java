@@ -62,4 +62,22 @@ public class SimpleGetTest extends BaseFunctionalTest {
 
     s.close();
   }
+
+  @Test
+  public void testSleep() throws IOException {
+      long timePeriod = 10000;
+      Socket t = connect();
+      Writer out = new PrintWriter(t.getOutputStream());
+      BufferedReader in = new BufferedReader(new InputStreamReader(t.getInputStream()));
+
+      out.append("SET SLEEP " + timePeriod + "\n").flush();
+      long start = System.currentTimeMillis();
+      out.append("GET k1\n").flush();
+      Assert.assertEquals("", in.readLine());
+      Assert.assertEquals("VALUE", in.readLine());
+      Assert.assertEquals("", in.readLine());
+      long end = System.currentTimeMillis();
+      Assert.assertTrue(timePeriod < (end - start));
+      Assert.assertTrue((end - start) < (timePeriod + 50));
+  }
 }
