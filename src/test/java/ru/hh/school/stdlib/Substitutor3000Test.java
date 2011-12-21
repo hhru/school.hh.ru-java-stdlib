@@ -11,16 +11,21 @@ public class Substitutor3000Test {
         sbst.put("k2", "two");
         sbst.put("keys", "1: ${k1}, 2: ${k2}");
 
-        Assert.assertEquals("1: one, 2: two", sbst.get("keys"));
+        Assert.assertEquals("1: one , 2: two ", sbst.get("keys"));
 
         sbst.put("a", "avril");
         sbst.put("keys2", "1: ${a}, 2: ${b}");
-        Assert.assertEquals("1: avril, 2: ", sbst.get("keys2"));
+        Assert.assertEquals("1: avril , 2: ", sbst.get("keys2"));
 
         sbst.put("c3po", "human robot");
         sbst.put("r2d2", "wheel robot");
         sbst.put("keys3", "1: ${c3po}, 2: ${r2d2}");
         Assert.assertEquals("1: human robot, 2: wheel robot", sbst.get("keys3"));
+
+        //Checking how cycle references are handled
+        sbst.put("r1","${r2}");
+        sbst.put("r2","${r3}");
+        Assert.assertTrue(("Error. Cycle reference.".equals(sbst.put("r3","${r1}"))));
     }
 
     @Test

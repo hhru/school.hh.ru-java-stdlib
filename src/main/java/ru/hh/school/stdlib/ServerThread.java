@@ -34,7 +34,6 @@ public class ServerThread implements Runnable{
             in.close();
             clientSocket.close();
         } catch (IOException e) {
-            //report exception somewhere.
             e.printStackTrace();
         }
     }
@@ -53,7 +52,8 @@ public class ServerThread implements Runnable{
             while (tokenizer.hasMoreTokens()) {
                 value += tokenizer.nextToken();
             }
-            Server.substitutor.put(key, value);
+            if (Server.substitutor.put(key, value).equals("Error. Cycle reference."))
+                return "Error. Cycle reference.";
             return "OK\nconnection closed";
         }
         else if (command.equals("SET")) {

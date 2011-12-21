@@ -1,18 +1,32 @@
 package ru.hh.school.stdlib;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Substitutor3000 {
 
     private static Map<String,String> map = Collections.synchronizedMap(new HashMap<String, String>());
+    private Set<String> keysSet = new HashSet<String>();
+    private String ErrorCycRef = "Error. Cycle reference.";
 
-    public void put(String key, String value) {
+    public String put(String key, String value) {
         synchronized (this) {
+
+            String regex = "\\$\\{(\\w+)\\}";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(value);
+
+            keysSet.add(key);
+            String chvalue;
+            while (m.find()) {
+                chvalue = m.group(1);
+                if (get(chvalue).equals(ErrorCycRef))
+                    return ErrorCycRef;
+            }
             map.put(key, value);
+            keysSet.remove(key);
+            return "";
         }
     }
 
@@ -26,6 +40,10 @@ public class Substitutor3000 {
             Matcher m = p.matcher(value);
 
             while (m.find()) {
+                //Cheching whether keys don't reference each other
+                if (keysSet.contains(m.group(1))) {
+                   return ErrorCycRef;
+                }
                 value = value.replaceFirst(regex, get(m.group(1)));
                 m = p.matcher(value);
             }
