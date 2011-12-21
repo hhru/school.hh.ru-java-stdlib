@@ -1,17 +1,19 @@
 package ru.hh.school.stdlib;
 
+import ru.hh.school.stdlib.server.AnnotatedServer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class BaseFunctionalTest {
-	private static Server server;
+	private static AnnotatedServer server;
 
 	protected BaseFunctionalTest() {
 		synchronized (BaseFunctionalTest.class) {
 			try {
 				if (server == null) {
-					server = new Server(new InetSocketAddress("127.0.0.1", 0));
+					server = new ServerImplementation(new InetSocketAddress("127.0.0.1", 3753));
 					new Thread(new Runnable() {
 						public void run() {
 							try {

@@ -1,5 +1,7 @@
 package ru.hh.school.stdlib;
 
+import ru.hh.school.stdlib.server.AnnotatedServer;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -10,7 +12,7 @@ public class Launcher {
 		try {
 			if (args.length == 0) {
 				host = "127.0.0.1";
-				port = 9129;
+				port = 9559;
 			} else if (args.length == 3) {
 				host = args[1];
 				port = Integer.parseInt(args[2]);
@@ -22,8 +24,8 @@ public class Launcher {
 			System.exit(1);
 			return; // попробуйте закомментировать этот return
 		}
-		InetSocketAddress addr = InetSocketAddress.createUnresolved(host, port);
 
-		new Server(addr).run();
+		InetSocketAddress addr = InetSocketAddress.createUnresolved(host, port);
+		new ServerImplementation(addr).run();
 	}
 }
