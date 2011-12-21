@@ -7,6 +7,7 @@
 или @MethodBody(PutMethod.class), где GetMethod, PutMethod — классы-наследники MethodParser.
 Они производят разбор запроса и формируют список параметров, передаваемых в аннотированный метод
 — ServerImplementation реализует AnnotatedServer с методами GET, PUT и SET SLEEP
+— Launcher остался практически неизменным
 
 Таким образом:
 — легко добавить новый метод серверу
