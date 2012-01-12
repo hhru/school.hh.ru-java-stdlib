@@ -6,33 +6,22 @@ import java.util.regex.Pattern;
 /**
  * Разбирает строку запроса с помощью регулярного выражения.
  */
-public abstract class RegexpMethodParser implements MethodParser {
-	/**
-	 * Возвращает регулярное выражение для разбора запроса.
-	 * @return Регулярное выражение.
-	 */
-	protected abstract Pattern getPattern();
+public class RegexpMethodParser implements MethodParser {
 
-	/**
-	 * Проверяет строку запроса соответствующим регулярным выражением.
-	 * @param line Строка с текстом запроса.
-	 * @return True в том случае, если регулярное выражение допускает входную
-	 * строку запроса.
-	 */
-	@Override
-	public boolean tryParse(String line) {
-		return this.getPattern().matcher(line).matches();
+	private final Pattern pattern;
+
+	public RegexpMethodParser(String regexp) {
+		this.pattern = Pattern.compile(regexp);
 	}
 
-	/**
-	 * Разбирает строку запроса с помощью регулярного выражения.
-	 * @param line Строка с текстом запроса.
-	 * @return Массив параметров запроса, полученный в результате
-	 * разбора запроса регулярным выражением.
-	 */
+	@Override
+	public boolean tryParse(String line) {
+		return this.pattern.matcher(line).matches();
+	}
+
 	@Override
 	public String[] parse(String line) {
-		Matcher matcher = this.getPattern().matcher(line);
+		Matcher matcher = this.pattern.matcher(line);
 		matcher.find();
 
 		String[] groups = new String[matcher.groupCount()];

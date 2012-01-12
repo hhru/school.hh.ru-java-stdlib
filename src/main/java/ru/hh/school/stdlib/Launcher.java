@@ -1,12 +1,9 @@
 package ru.hh.school.stdlib;
 
-import ru.hh.school.stdlib.server.AnnotatedServer;
-
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class Launcher {
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		String host;
 		int port;
 		try {

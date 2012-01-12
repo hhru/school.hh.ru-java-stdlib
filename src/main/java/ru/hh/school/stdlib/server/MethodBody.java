@@ -1,7 +1,5 @@
 package ru.hh.school.stdlib.server;
 
-import ru.hh.school.stdlib.methods.MethodParser;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,9 +13,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface MethodBody {
-	/**
-	 * Класс, определяющий тип запроса.
-	 * @return Значение, переданное в аннотацию.
-	 */
-	Class<? extends MethodParser> value();
+	String value();
 }

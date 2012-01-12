@@ -18,7 +18,7 @@ public class BaseFunctionalTest {
 						public void run() {
 							try {
 								server.run();
-							} catch (IOException e) {
+							} catch (Exception e) {
 								throw new RuntimeException(e);
 							}
 						}

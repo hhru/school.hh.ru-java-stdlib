@@ -19,21 +19,10 @@ public class KeyValueSubstitutor implements Substitutor3000 {
 	private Pattern templatePattern = Pattern.compile("\\$\\{\\s*([A-Za-z_\\$]+[A-Za-z_\\$0-9]*)\\s*\\}");
 	private HashSet<String> visitedKeys = new HashSet<String>();
 
-	/**
-	 * Сохраняет ключ с заданным значением.
-	 * @param key Ключ.
-	 * @param value Значение.
-	 */
 	public void put(String key, String value) {
 		data.put(key, value);
 	}
 
-	/**
-	 * Возвращает значение ключа. Поддерживается простая шаблонизация.
-	 * Бесконечная рекурсия контролируется.
-	 * @param key Ключ.
-	 * @return Значение.
-	 */
 	public String get(String key) {
 		String tpl_value = data.get(key);
 		if (tpl_value == null)

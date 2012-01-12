@@ -1,6 +1,5 @@
 package ru.hh.school.stdlib.server;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -16,28 +15,16 @@ public abstract class ThreadedServer implements Server {
 	protected ServerSocket serverSocket;
 	private Executor executor;
 
-	/**
-	 * Создаёт экземпляр сервера с заданным адресом.
-	 * @param addr Адрес сервера.
-	 */
 	public ThreadedServer(InetSocketAddress addr) {
 		this.addr = addr;
 		this.executor = Executors.newCachedThreadPool();
 	}
 
-	/**
-	 * Возвращает порт, к которому привязан сервер.
-	 * @return Номер порта.
-	 */
 	public int getPort() {
 		return addr.getPort();
 	}
 
-	/**
-	 * Запускает основной цикл серверной обработки.
-	 * @throws IOException Генерируется при неудачном запуске сервера.
-	 */
-	public void run() throws IOException {
+	public void run() throws Exception {
 		serverSocket = new ServerSocket(this.getPort());
 		System.out.println("Сервер ru.hh.school.stdlib запущен");
 
@@ -49,9 +36,8 @@ public abstract class ThreadedServer implements Server {
 
 	/**
 	 * Обрабатывает поступивший от клиента запрос в отдельном потоке.
-	 * @throws IOException Генерируется при неудачной обработке запроса.
 	 */
-	protected void processIncomingConnection() throws IOException {
+	protected void processIncomingConnection() throws Exception {
 		final Socket incomingSocket = serverSocket.accept();
 
 		InetAddress client = incomingSocket.getInetAddress();
@@ -63,7 +49,7 @@ public abstract class ThreadedServer implements Server {
 				try {
 					serveClient(incomingSocket);
 				}
-				catch (IOException e) {
+				catch (Exception e) {
 					System.out.println(String.format(
 						"Обработка запроса от клиента %s завершилась с ошибками",
 						incomingSocket.getInetAddress().getHostName()
@@ -78,7 +64,6 @@ public abstract class ThreadedServer implements Server {
 	/**
 	 * Процедура обработки клиентского запроса. Запускается в отдельном потоке.
 	 * @param incomingSocket Клиентский сокет.
-	 * @throws IOException Генерируется при неудачной обработке запроса.
 	 */
-	protected abstract void serveClient(Socket incomingSocket) throws IOException;
+	protected abstract void serveClient(Socket incomingSocket) throws Exception;
 }
