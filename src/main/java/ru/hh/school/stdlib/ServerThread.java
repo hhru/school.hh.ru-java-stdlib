@@ -10,10 +10,12 @@ import java.util.StringTokenizer;
 public class ServerThread implements Runnable{
 
     protected Socket clientSocket = null;
-    private final static String WRONG_REQUEST ="Wrond request. Please try again.";
+    private final static String WRONG_REQUEST ="Wrong request. Please try again.";
+    private Substitutor3000 substitutor;
 
-    public ServerThread(Socket clientSocket) {
+    public ServerThread(Socket clientSocket, Substitutor3000 substitutor) {
         this.clientSocket = clientSocket;
+        this.substitutor = substitutor;
     }
 
     public void run() {
@@ -44,7 +46,7 @@ public class ServerThread implements Runnable{
         if (command.equals("GET")) {
 
             String key = tokenizer.nextToken();
-            return "VALUE\n" + Server.substitutor.get(key);
+            return "VALUE\n" + substitutor.get(key);
         }
         else if (command.equals("PUT")) {
             String key = tokenizer.nextToken();
@@ -52,7 +54,7 @@ public class ServerThread implements Runnable{
             while (tokenizer.hasMoreTokens()) {
                 value += tokenizer.nextToken();
             }
-            if (Server.substitutor.put(key, value).equals("Error. Cycle reference."))
+            if (substitutor.put(key, value).equals("Error. Cycle reference."))
                 return "Error. Cycle reference.";
             return "OK\nconnection closed";
         }

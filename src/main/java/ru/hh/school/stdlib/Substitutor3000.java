@@ -6,14 +6,13 @@ import java.util.regex.Pattern;
 
 public class Substitutor3000 {
 
-    private static Map<String,String> map = Collections.synchronizedMap(new HashMap<String, String>());
+    private Map<String,String> map = Collections.synchronizedMap(new HashMap<String, String>());
     private Set<String> keysSet = new HashSet<String>();
     private String ErrorCycRef = "Error. Cycle reference.";
+    private String regex = "\\$\\{(\\w+)\\}";
 
     public String put(String key, String value) {
         synchronized (this) {
-
-            String regex = "\\$\\{(\\w+)\\}";
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(value);
 
@@ -35,12 +34,11 @@ public class Substitutor3000 {
             String value = map.get(key);
             if (value == null)
                 return "";
-            String regex = "\\$\\{(\\w+)\\}";
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(value);
 
             while (m.find()) {
-                //Cheching whether keys don't reference each other
+                //Checking whether keys don't reference each other
                 if (keysSet.contains(m.group(1))) {
                    return ErrorCycRef;
                 }

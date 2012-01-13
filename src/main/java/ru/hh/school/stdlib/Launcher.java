@@ -26,13 +26,5 @@ public class Launcher {
 
     Server server = new Server(addr);
     new Thread(server).start();
-    //Launching server for 20 minutes
-    try {
-        Thread.sleep(12000 * 1000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    System.out.println("Stopping Server");
-    server.stop();
   }
 }
