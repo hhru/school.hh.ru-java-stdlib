@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.Socket;
 
 
-public class GetPutTest extends BaseFunctionalTest{
+public class GetPutTest extends BaseFunctionalTest {
     @Test
     public void getPut() throws IOException {
         Socket s = connect();

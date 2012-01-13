@@ -1,13 +1,10 @@
 package ru.hh.school.stdlib;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.net.Socket;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.*;
+import java.net.Socket;
 
 public class RecursionTest extends BaseFunctionalTest {
     //This one tests protection from infinite recursion
@@ -35,8 +32,7 @@ public class RecursionTest extends BaseFunctionalTest {
         out = new PrintWriter(s.getOutputStream());
         in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         out.append("GET keys3\n").flush();
-        Assert.assertEquals("VALUE", in.readLine());
-        Assert.assertEquals("Panic!!! Infinite recursion!!!", in.readLine());
+        Assert.assertEquals("Error: Infinite recursion.", in.readLine());
 
         s.close();
     }
