@@ -21,8 +21,7 @@ public class ServerThread implements Runnable{
     public void run() {
         try {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    clientSocket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String inputLine, outputLine;
 
             while ((inputLine = in.readLine()) != null) {

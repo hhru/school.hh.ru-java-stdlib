@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.*;
 
 public class Server implements Runnable {
     private int serverPort = 4444;
@@ -17,6 +18,7 @@ public class Server implements Runnable {
 
     public void run() {
         openServerSocket();
+        ExecutorService exec = Executors.newCachedThreadPool();
         while(true){
             Socket clientSocket;
             try {
@@ -24,7 +26,7 @@ public class Server implements Runnable {
             } catch (IOException e) {
                 throw new RuntimeException("Error accepting client connection", e);
             }
-            new Thread(new ServerThread(clientSocket, substitutor)).start();
+            exec.execute(new ServerThread(clientSocket, substitutor));
         }
     }
 
