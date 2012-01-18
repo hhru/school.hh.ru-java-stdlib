@@ -10,7 +10,8 @@ public class Server implements Runnable {
     private int serverPort = 4444;
     private ServerSocket serverSocket = null;
     private Substitutor3000 substitutor;
-
+    private int sleepTime = 0;
+    
     public Server(InetSocketAddress addr) {
         this.serverPort = addr.getPort();
         substitutor = new Substitutor3000();
@@ -26,7 +27,7 @@ public class Server implements Runnable {
             } catch (IOException e) {
                 throw new RuntimeException("Error accepting client connection", e);
             }
-            exec.execute(new ServerThread(clientSocket, substitutor));
+            exec.execute(new ServerThread(clientSocket, substitutor, this));
         }
     }
 
@@ -40,5 +41,13 @@ public class Server implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException("Cannot open port 8080", e);
         }
+    }
+
+    public int getSleepTime() {
+        return sleepTime;
+    }
+
+    public void setSleepTime(int sleepTime) {
+        this.sleepTime = sleepTime;
     }
 }

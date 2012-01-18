@@ -6,10 +6,10 @@ import org.junit.Test;
 import java.io.*;
 import java.net.Socket;
 
-public class MultiConnection extends BaseFunctionalTest{
+public class MultiConnection extends BaseFunctionalTest {
 
     @Test
-    public void testMultiConnection() throws IOException{
+    public void testMultiConnection() throws IOException {
         long timePeriod = 10000;
 
         Socket s1 = connect();
