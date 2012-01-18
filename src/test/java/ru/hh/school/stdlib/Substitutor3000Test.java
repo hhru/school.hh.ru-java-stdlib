@@ -6,11 +6,12 @@ import org.junit.Test;
 public class Substitutor3000Test {
     @Test
     public void replacement() {
+        RecursiveException thrown = null;
+        try {
         Substitutor3000 sbst = new Substitutor3000();
         sbst.put("k1", "one");
         sbst.put("k2", "two");
         sbst.put("keys", "1: ${k1}, 2: ${k2}");
-
         Assert.assertEquals("1: one , 2: two ", sbst.get("keys"));
 
         sbst.put("a", "avril");
@@ -22,19 +23,25 @@ public class Substitutor3000Test {
         sbst.put("keys3", "1: ${c3po}, 2: ${r2d2}");
         Assert.assertEquals("1: human robot, 2: wheel robot", sbst.get("keys3"));
 
-        /*
+
         //Checking how cycle references are handled
         sbst.put("r1","${r2}");
-        sbst.put("r2","${r3}");
-        Assert.assertTrue(("Error. Cycle reference.".equals(sbst.put("r3","${r1}"))));
-        */
+        sbst.put("r2","${r1}");
+        sbst.get("r1");
+        } catch (RecursiveException e) {
+            thrown = e;
+        }
+        Assert.assertNotNull(thrown);
     }
 
     @Test
     public void emptyReplacement() {
         Substitutor3000 sbst = new Substitutor3000();
         sbst.put("k", "bla-${inexistent}-bla");
-
-        Assert.assertEquals("bla--bla", sbst.get("k"));
+        try {
+        Assert.assertEquals("bla--bla ", sbst.get("k"));
+        } catch (RecursiveException e) {
+            System.out.println(e);
+        }
     }
 }

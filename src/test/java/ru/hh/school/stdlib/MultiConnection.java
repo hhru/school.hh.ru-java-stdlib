@@ -21,14 +21,13 @@ public class MultiConnection extends BaseFunctionalTest {
         BufferedReader in2 = new BufferedReader(new InputStreamReader(s2.getInputStream()));
 
         out1.append("SET SLEEP " + timePeriod + "\n").flush();
-        out2.append("SET SLEEP " + timePeriod + "\n").flush();
+        Assert.assertEquals("OK", in1.readLine());
+        Assert.assertEquals("connection closed", in1.readLine());
         long start = System.currentTimeMillis();
         out1.append("GET k1\n").flush();
         out2.append("GET k1\n").flush();
-        Assert.assertEquals("", in1.readLine());
         Assert.assertEquals("VALUE", in1.readLine());
         Assert.assertEquals("", in1.readLine());
-        Assert.assertEquals("", in2.readLine());
         Assert.assertEquals("VALUE", in2.readLine());
         Assert.assertEquals("", in2.readLine());
         long end = System.currentTimeMillis();

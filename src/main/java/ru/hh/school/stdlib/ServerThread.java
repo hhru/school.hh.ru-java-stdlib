@@ -49,7 +49,13 @@ public class ServerThread implements Runnable{
         if (command.equals("GET")) {
             sleep();
             String key = tokenizer.nextToken();
-            return "VALUE\n" + substitutor.get(key);
+            String value;
+            try {
+                value = substitutor.get(key);
+            } catch (RecursiveException e) {
+                return "ERROR\nRecursive link detected";
+            }
+            return "VALUE\n" + value;
         }
         else if (command.equals("PUT")) {
             sleep();
