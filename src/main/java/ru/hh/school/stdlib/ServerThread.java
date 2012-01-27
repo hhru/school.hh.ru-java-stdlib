@@ -7,10 +7,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ServerThread implements Runnable{
-    private final static String WRONG_REQUEST ="Wrong request. Please try again.";
     private final static String SUCCESS_REQUEST = "OK\nconnection closed";
+    private final static String WRONG_REQUEST   = "ERROR\nWrong request. Please try again.";
+    private final static String RECURSIVE_ERROR = "ERROR\nRecursive link detected";
 
     private Socket clientSocket;
     private Substitutor3000 substitutor;
@@ -44,38 +47,37 @@ public class ServerThread implements Runnable{
     }
 
     private String processInput(String inputLine) {
-        StringTokenizer tokenizer = new StringTokenizer(inputLine);
-        String command = tokenizer.nextToken();
-        if (command.equals("GET")) {
+        String[] input = inputLine.split("\\s");
+
+        if (input[0].equals("GET")) {
             sleep();
-            String key = tokenizer.nextToken();
+            String key = input[1];
             String value;
             try {
                 value = substitutor.get(key);
             } catch (RecursiveException e) {
-                return "ERROR\nRecursive link detected";
+                return RECURSIVE_ERROR;
             }
             return "VALUE\n" + value;
         }
-        else if (command.equals("PUT")) {
+        else if (input[0].equals("PUT")) {
             sleep();
-            String key = tokenizer.nextToken();
+            String key = input[1];
             String value = "";
-            while (tokenizer.hasMoreTokens()) {
-                value += tokenizer.nextToken();
-            }
+            for (int i = 2; i < input.length; i++)
+                value += input[i];
             substitutor.put(key, value);
             return SUCCESS_REQUEST;
         }
-        else if (command.equals("SET")) {
-            if (tokenizer.nextToken().equals("SLEEP")) {
-                server.setSleepTime(Integer.parseInt(tokenizer.nextToken()));
+        else if (input[0].equals("SET")) {
+            if (input[1].equals("SLEEP")) {
+                server.setSleepTime(Integer.parseInt(input[2]));
                 return SUCCESS_REQUEST;
             }
             else
                 return WRONG_REQUEST;
         }
-        else if (command.equals("EXIT")) {
+        else if (input[0].equals("EXIT")) {
             return "EXIT";
         }
         else {

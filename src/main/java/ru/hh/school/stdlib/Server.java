@@ -11,7 +11,7 @@ public class Server implements Runnable {
     private ServerSocket serverSocket = null;
     private Substitutor3000 substitutor;
     private int sleepTime = 0;
-    
+
     public Server(InetSocketAddress addr) {
         this.serverPort = addr.getPort();
         substitutor = new Substitutor3000();
@@ -44,10 +44,14 @@ public class Server implements Runnable {
     }
 
     public int getSleepTime() {
-        return sleepTime;
+        synchronized (this) {
+            return sleepTime;
+        }
     }
 
     public void setSleepTime(int sleepTime) {
-        this.sleepTime = sleepTime;
+        synchronized (this) {
+            this.sleepTime = sleepTime;
+        }
     }
 }

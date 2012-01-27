@@ -10,7 +10,7 @@ public class MultiConnection extends BaseFunctionalTest {
 
     @Test
     public void testMultiConnection() throws IOException {
-        long timePeriod = 10000;
+        long timePeriod = 2000;
 
         Socket s1 = connect();
         Socket s2 = connect();
