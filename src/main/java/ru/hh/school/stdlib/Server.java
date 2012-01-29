@@ -17,8 +17,8 @@ public class Server {
             s = new ServerSocket(addr.getPort());
             sbst = new Substitutor3000();
             sleepTime = 0L;
-        } catch (IOException e) {
-            System.err.println("There's an I/O problem: ");
+        } catch (Exception e) {
+            System.err.print("ERROR ");
             e.printStackTrace();
             System.exit(1);
         }

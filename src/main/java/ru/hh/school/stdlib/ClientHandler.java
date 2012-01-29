@@ -35,21 +35,21 @@ public class ClientHandler implements Runnable {
                             temp = sbst.get(req[1], null);
                             out.println("VALUE");
                             out.println(temp);
-                        } catch (IOException e) {
-                            out.println("Error: " + e.getMessage());
+                        } catch (InfiniteRecursionException e) {
+                            out.println("ERROR " + e.getMessage());
                         }
-                    } else out.println("GET syntax: GET key");
+                    } else out.println("ERROR GET syntax: GET key");
                 } else if ((req[0].equals("SET")) && (req[1].equals("SLEEP"))) {
                     if (len == 3) {
                         server.setSleepTime(Long.valueOf(req[2]));
-                    } else out.println("SET syntax: SET SLEEP sleeptime");
+                    } else out.println("ERROR SET syntax: SET SLEEP sleeptime");
                 } else if (req[0].equals("PUT")) {
                     TimeUnit.MILLISECONDS.sleep(server.getSleepTime());
                     if (len == 3) {
                         sbst.put(req[1], req[2]);
                         out.println("OK");
-                    } else out.println("PUT syntax: PUT key value");
-                } else out.println("Unsupported request! We accept GET, PUT or SET SLEEP here!");
+                    } else out.println("ERROR PUT syntax: PUT key value");
+                } else out.println("ERROR Unsupported request! We accept GET, PUT or SET SLEEP here!");
                 out.flush();
             } catch (InterruptedException e) {
                 e.printStackTrace();

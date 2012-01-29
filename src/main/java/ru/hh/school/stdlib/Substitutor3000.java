@@ -1,6 +1,5 @@
 package ru.hh.school.stdlib;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
@@ -18,11 +17,11 @@ public class Substitutor3000 {
         storage.put(key, value);
     }
 
-    public synchronized String get(String key, HashSet<String> inProgress) throws IOException {
+    public synchronized String get(String key, HashSet<String> inProgress) throws InfiniteRecursionException {
         if (inProgress == null)
             inProgress = new HashSet<String>();
         else if (inProgress.contains(key))
-            throw new IOException("Infinite recursion.");
+            throw new InfiniteRecursionException("Infinite recursion.");
         String out = storage.get(key);
         if (out == null) return "";
         inProgress.add(key);
