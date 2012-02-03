@@ -44,15 +44,11 @@ public class Server implements Runnable {
         }
     }
 
-    public int getSleepTime() {
-        synchronized (this) {
-            return sleepTime;
-        }
+    public synchronized int getSleepTime() {
+        return sleepTime;
     }
 
-    public void setSleepTime(int sleepTime) {
-        synchronized (this) {
-            this.sleepTime = sleepTime;
-        }
+    public synchronized void setSleepTime(int sleepTime) {
+        this.sleepTime = sleepTime;
     }
 }
