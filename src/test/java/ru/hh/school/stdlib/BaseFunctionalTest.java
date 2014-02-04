@@ -11,14 +11,14 @@ public class BaseFunctionalTest {
     synchronized (BaseFunctionalTest.class) {
       try {
         if (server == null) {
-          server = new Server(new InetSocketAddress("127.0.0.1", 0));
+          server = new Server(new InetSocketAddress("127.0.0.1", 4444));
           new Thread(new Runnable() {
             public void run() {
-              try {
+              //try {
                 server.run();
-              } catch (IOException e) {
-                throw new RuntimeException(e);
-              }
+              //} catch (IOException e) {
+                //throw new RuntimeException(e);
+             // }
             }
           }).start();
           Thread.sleep(100);
